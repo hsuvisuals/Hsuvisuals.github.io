@@ -1,0 +1,191 @@
+// Color
+color BG = color(32);
+color Red = color(255, 13, 13);
+color Blue = color(24, 22, 240);
+color Green = color(51, 229, 52);
+color Purple = color(116, 41, 240);
+color Yellow = color(255, 244, 31);
+color Orange = color(255, 157, 52);
+color White = color(255);
+color Grey = color(175);
+color Black = color(0);
+
+color currentColor;
+int currentSize;
+int currX=mouseX;
+int currY=mouseY;
+int s=1;
+
+//Switching between modes
+static final int NONE = 0;
+static final int RECTANGLE = 1;
+static final int CIRCLE = 2;
+static final int TRIANGLE = 3;
+static final int ERASER = 5;
+
+//Store current mode
+int myDrawMode = NONE;
+
+int cnt = 0;
+
+int paletteWidth = 125;
+int paletteHeight = 250;
+
+
+void setup() {
+  size(800, 800);
+  background(BG);
+  smooth();
+
+  frameRate(30);
+}
+
+void draw() {
+
+  //Draw background of toolbar
+  fill(255);
+  rect (0, 0, paletteWidth, paletteHeight);
+
+  ////Brush Sizes
+  fill(255);
+  rect (0, paletteHeight, paletteWidth, paletteHeight);
+  //rect(0, paletteHeight,paletteWidth,paletteHeight);
+  
+
+  //Draw color selections
+  stroke(0);
+  strokeWeight(2);
+  fill(Red);
+  ellipse(20, 20, 25, 25);
+  fill(Blue);
+  ellipse(60, 20, 25, 25);
+  fill(Green);
+  ellipse(100, 20, 25, 25);
+  fill(Purple);
+  ellipse(20, 60, 25, 25);
+  fill(Yellow);
+  ellipse(60, 60, 25, 25);
+  fill(Orange);
+  ellipse(100, 60, 25, 25);
+  fill(Black);
+  ellipse(20, 100, 25, 25);
+  fill(White);
+  ellipse(60, 100, 25, 25);
+  fill(Grey);
+  ellipse(100, 100, 25, 25);
+
+  //Draw line thickness selections
+  fill(0);
+  ellipse(60, 295, 5, 5);
+  ellipse(60, 325, 10, 10);
+  ellipse(60, 360, 15, 15);
+  ellipse(60, 400, 25, 25);
+  ellipse(60, 450, 35, 35);
+
+  //JHbrushSize();
+  saveFrame("stills/P1-#####.png");
+} 
+
+void JHbrushSize() {
+  if (key == ']') {
+    s++;
+  }
+  if (key == '[') {
+    s--;
+  } else {
+    s+=0;
+  }
+}
+
+
+void JHdrawShape()
+{
+
+  noStroke();
+  //Different Modes
+  switch (myDrawMode) {
+  case RECTANGLE:
+    fill(currentColor);
+    rect(mouseX, mouseY, currentSize, currentSize);
+    break;
+  case CIRCLE:
+    fill(currentColor);
+    ellipse(mouseX, mouseY, currentSize,currentSize);
+    break;
+  case TRIANGLE:
+    fill(currentColor);
+    triangle(mouseX-currentSize, mouseY+currentSize, mouseX, mouseY-currentSize, mouseX+currentSize, mouseY+currentSize);
+    break;
+
+  }
+}
+
+void JHchooseColor()
+{
+  currentColor = get(mouseX, mouseY);
+}
+
+
+ void chooseSize() {
+   println(currX);
+   println(currY);
+  currX=mouseX;
+  currY=mouseY;
+  if ((currX >= 55 && currX <= 65) && (currY>= 290 && currY <= 300)){
+  currentSize = 10;
+  }
+   else if ((currX >= 50 && currX <= 70) && (currY>= 315 && currY <= 335)){
+  currentSize = 20;
+  }
+    else if ((currX >= 45 && currX <= 75) && (currY>=345  && currY <= 375)){
+  currentSize = 35;
+  }
+   else if ((currX >= 35 && currX <= 85) && (currY>=375  && currY <= 425)){
+  currentSize = 40;
+  }
+    else if ((currX >= 25 && currX <= 95) && (currY>=415  && currY <= 485)){
+  currentSize = 50;
+  }
+}
+
+
+void mousePressed()
+{
+  if (mouseX < paletteWidth)
+  {
+    if (mouseY < paletteHeight)
+    {
+      JHchooseColor();
+      
+    } if(mouseX < paletteWidth) {
+        if (mouseY > paletteHeight){
+      chooseSize();
+        }
+    }
+  } else
+  {
+    JHdrawShape();
+   
+  }
+}
+
+void keyPressed() {
+  // draw mode accordingly.
+  switch (key) {
+  case '0':
+    myDrawMode = NONE;
+    break;
+  case '1':
+    myDrawMode = RECTANGLE;
+    break;
+  case '2':
+    myDrawMode = CIRCLE;
+    break;
+  case '3':
+    myDrawMode = TRIANGLE;
+    break;
+  case '4':
+    background(BG);
+    break;
+  }
+}
