@@ -73,11 +73,12 @@ background-color: #f7f7f7;
 
 footer {
     margin: 0 auto;
-   width: 1904px;
+   width: 100%;
     text-align: center;
     align-content: center;
     position: fixed;
     bottom: 0;
+    background-size: 100%;
 }
 
 footer a {
